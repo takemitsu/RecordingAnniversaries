@@ -13,7 +13,7 @@
 
 Route::get('/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+Route::get('anniv', 'AnnivController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

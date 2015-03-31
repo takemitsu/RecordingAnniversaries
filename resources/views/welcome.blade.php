@@ -42,7 +42,7 @@
 		<div class="container">
 			<div class="content">
 				<div class="title"><p>Recording Anniversaries<p></div>
-				<div class="quote"><a href="/#/index" class="btn btn-default">enter</a></div>
+				<div class="quote"><a href="anniv/#/index" class="btn btn-default">enter</a></div>
 			</div>
 		</div>
 	</body>

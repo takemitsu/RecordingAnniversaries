@@ -21,3 +21,129 @@ Thank you for considering contributing to the Laravel framework! The contributio
 ### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+
+--
+
+# Recording Anniversaries Project
+
+> php など関連のインストールは既に終わっている前提
+
+## Laravel プロジェクト作成
+
+Composerを使用し、Laravelインストーラーをダウンロード
+
+```
+composer global require "laravel/installer=~1.1"
+```
+
+ra プロジェクトを作成
+
+```
+laravel new ra
+```
+
+## 初期データベース関連
+
+データベース作成
+
+```
+mysql -u root 
+create database ra;
+grant all privileges on ra.* to ra_user@localhost identified by '28bJYiDx2zUki1jd';
+```
+
+データベースに属する .env 変更
+
+- .env
+
+```
+DB_HOST=localhost
+DB_DATABASE=ra
+DB_USERNAME=ra_user
+DB_PASSWORD=28bJYiDx2zUki1jd
+```
+
+モデルを作成(同時にmigrateファイルができる)
+
+```
+php artisan make:model Entity
+php artisan make:model Days
+php artisan make:model Alarm
+```
+
+定義を編集
+
+- database/migrations/2015_03_31_055233_create_entities_table.php 
+- database/migrations/2015_03_31_055249_create_days_table.php
+- database/migrations/2015_03_31_055300_create_alarms_table.php
+
+データベースに適用
+
+```
+php artisan migrate
+```
+
+初期データ登録設定編集
+
+- database/seeds/DatabaseSeeder.php
+
+データベースに反映
+
+```
+php artisan db::seed
+```
+
+## bower での jquery等のインストール
+
+> ファイルは bower_components/ 以下に入るので必要なファイルをコピーして使用する。
+>> bower_components は .gitignore に登録したほうがいいかも
+
+update
+
+```
+npm update -g bower
+```
+
+jquery, angular-bootstrap
+
+```
+bower install jquery
+bower install bootstrap
+bower install angular-bootstrap
+bower install angular
+bower install angular-route
+```
+
+その他, 必要に応じて
+
+```
+bower install angular-cookies
+bower install ng-file-upload 
+etc..
+```
+
+
+
+## gulp 設定
+
+gulp 動作確認
+
+```
+composer update
+# node インストール確認
+node -v
+# gulp インストール確認(npm install --global gulp でインストール)
+gulp -v
+npm install (laravelのrootで行う)
+# 実行テスト
+gulp
+
+# 必要に応じ
+npm install gulp-shell
+```
+
+coffee script 使うように gulp 設定ファイル編集
+
+```
+
+```

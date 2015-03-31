@@ -14,4 +14,7 @@
 		</div>
 	</div>
 </div>
+
+<div class="container" ng-view>
+</div>
 @endsection

@@ -1,0 +1,2 @@
+
+mainControllers = angular.module 'mainControllers', []

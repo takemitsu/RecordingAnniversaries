@@ -1,18 +1,17 @@
 var gulp   = require("gulp");
-var shell  = require("gulp-shell");
 var concat = require("gulp-concat")
 var elixir = require('laravel-elixir');
 var _      = require('underscore');     // npm install xx
 
 /*
  |--------------------------------------------------------------------------
- | Elixir Asset Management
+ | combine files
  |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Less
- | file for our application, as well as publishing vendor resources.
- |
+ | mix.combineCoffee([input files],
+ | {
+ |    distname : output name
+ |    distpath : output path
+ | }
  */
 
 "use strict";
@@ -21,12 +20,11 @@ var config = {
 	distpath : "resources/assets/coffee/"
 }
 elixir.extend('combineCoffee', function(src, options) {
-options = _.extend(config, options);
+	options = _.extend(config, options);
 	src = src || "resources/assets/coffee/**/*.coffee";
 
 	gulp.task('combineCoffee', function() {
 		gulp.src(src)
-//			.pipe(plumber())
 			.pipe(concat(options.distname))
 			.pipe(gulp.dest(options.distpath));
 	});

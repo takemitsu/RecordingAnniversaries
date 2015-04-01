@@ -43,17 +43,13 @@ elixir.extend('combineCoffee', function(src, options) {
  |
  */
 
-
-
 elixir(function(mix) {
 	mix.less('app.less');
 
-	mix.combineCoffee(
-		[
+	mix.combineCoffee([
 			'resources/assets/coffee/router.coffee',
 			'resources/assets/coffee/main.coffee',
 			'resources/assets/coffee/controller/anniv/anniv_index.coffee'
-		]
-	);
+	]);
 	mix.coffee('app.coffee');
 });

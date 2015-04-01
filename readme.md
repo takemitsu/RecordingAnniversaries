@@ -26,7 +26,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 # Recording Anniversaries Project
 
-> php など関連のインストールは既に終わっている前提
+> php, composer など関連のインストールは既に終わっている前提
 
 ## Laravel プロジェクト作成
 
@@ -36,7 +36,7 @@ Composerを使用し、Laravelインストーラーをダウンロード
 composer global require "laravel/installer=~1.1"
 ```
 
-ra プロジェクトを作成
+Recording Anniversaries (めんどいんで略してra) プロジェクトを作成
 
 ```
 laravel new ra
@@ -131,7 +131,7 @@ gulp 動作確認
 ```
 composer update
 # node インストール確認
-node -v
+npm -v
 # gulp インストール確認(npm install --global gulp でインストール)
 gulp -v
 npm install (laravelのrootで行う)
@@ -144,6 +144,43 @@ npm install gulp-shell
 
 coffee script 使うように gulp 設定ファイル編集
 
-```
+> coffee ファイルを結合してからコンパイルしたかったため、
+> 結合エクステンションを作成
 
+```
+var gulp   = require("gulp");
+var concat = require("gulp-concat")
+var elixir = require('laravel-elixir');
+var _      = require('underscore');     // npm install xx
+
+"use strict";
+var config = {
+	distname : "app.coffee",
+	distpath : "resources/assets/coffee/"
+}
+elixir.extend('combineCoffee', function(src, options) {
+	options = _.extend(config, options);
+	src = src || "resources/assets/coffee/**/*.coffee";
+
+	gulp.task('combineCoffee', function() {
+		gulp.src(src)
+			.pipe(concat(options.distname))
+			.pipe(gulp.dest(options.distpath));
+	});
+	this.registerWatcher('combineCoffee', src);
+	return this.queueTask('combineCoffee');
+});
+
+// elixir 本体
+
+elixir(function(mix) {
+	mix.less('app.less');
+
+	mix.combineCoffee([
+			'resources/assets/coffee/router.coffee',
+			'resources/assets/coffee/main.coffee',
+			'resources/assets/coffee/controller/anniv/anniv_index.coffee'
+	]);
+	mix.coffee('app.coffee');
+});
 ```

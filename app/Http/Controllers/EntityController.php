@@ -30,7 +30,7 @@ class EntityController extends Controller {
 				->whereRaw('user_id = ?',[$user->id])
 				->with('days')
 				->orderBy('created_at', 'asc')
-				->paginate(5)
+				->paginate(20)
 		);
 	}
 

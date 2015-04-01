@@ -25,3 +25,5 @@ Route::group(array('prefix' => 'api'), function() {
 //                       "      bindings:\t".json_encode($bindings)."\n".
 //                       "      time:\t{$time} milliseconds\n");
 // });
+
+// file_put_contents('php://stdout', "----------------------");

@@ -6243,10 +6243,15 @@ div.panel div.row {
   margin-right: 0;
   padding-top: 5px;
   padding-bottom: 5px;
+}
+div.panel div.entity-title {
+  background-color: #fefef0;
+}
+div.panel div.entities {
   border-top: solid 1px #eee;
 }
-div.panel div.row:first-child {
-  border-top: none;
+div.panel div.days {
+  border-top: solid 1px #eee;
 }
 div.panel-footer ul {
   margin-top: 0;

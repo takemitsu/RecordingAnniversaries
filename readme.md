@@ -77,6 +77,35 @@ php artisan make:model Alarm
 - database/migrations/2015_03_31_055249_create_days_table.php
 - database/migrations/2015_03_31_055300_create_alarms_table.php
 
+テーブル概要
+
+```
+entity
+  $table->increments('id');
+  $table->integer('user_id');
+  $table->string('name',255);
+  $table->text('desc')->nullable();
+  $table->integer('status')->unsigned()->default(0);
+  $table->timestamps();
+
+days
+  $table->increments('id');
+  $table->integer('entity_id');
+  $table->string('name',255);
+  $table->text('desc')->nullable();
+  $table->date('anniv_at');
+  $table->timestamps();
+
+alarm お知らせ
+  $table->increments('id');
+  $table->integer('days_id');
+  $table->integer('type')->unsigned()->default(0);
+  $table->date('alarm_at')->nullable();
+  $table->integer('alarm_days')->unsigned()->default(0);
+  $table->boolean('enabled')->default(true);
+  $table->timestamps();
+```
+
 データベースに適用
 
 ```
@@ -184,3 +213,9 @@ elixir(function(mix) {
 	mix.coffee('app.coffee');
 });
 ```
+
+## todo 2015-04-01
+
+- 和暦で表示したいよね
+- アラーム使ってなんか表示する
+- など！

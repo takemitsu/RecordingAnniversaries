@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h4 class="modal-title">Regist Entity</h4>
+</div>
+<div class="modal-body">
+    <form novalidate class="form-horizontal" role="form" name="fm">
+        <div class="form-group">
+            <label for="name" class="col-sm-3 control-label">name</label>
+            <div class="col-sm-9">
+                <input type="text" name="name" id="name" class="form-control" ng-model="entity.name" required placeholder="名前">
+                <span class="error" ng-show="fm.name.$error.required">名前は必須です</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="desc" class="col-sm-3 control-label">メモ</label>
+            <div class="col-sm-9">
+                <textarea name="desc" id="desc" class="form-control" style="height:100px;" ng-model="entity.desc" placeholder="メモ"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel()">キャンセル</button>
+    <button class="btn btn-default btn-primary" ng-click="save()">保存</button>
+</div>

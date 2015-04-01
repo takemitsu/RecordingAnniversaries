@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 
 use App\Entity;
+use App\Http\Requests\createEntityRequest;
+use App\Http\Requests\updateEntityRequest;
 
 class EntityController extends Controller {
 
@@ -27,33 +29,45 @@ class EntityController extends Controller {
 			$entities = $this->entity
 				->whereRaw('user_id = ?',[$user->id])
 				->with('days')
-				->orderBy('created_at', 'desc')
+				->orderBy('created_at', 'asc')
 				->paginate(5)
 		);
 	}
 
 
-	public function store()
+	public function store(createEntityRequest $request)
 	{
-		//
+		$user = $this->auth->user();
+
+		$entity = new Entity;
+		$entity->name = $request->name;
+		$entity->desc = $request->desc;
+		$entity->user_id = $user->id;
+		$entity->save();
+		return response()->json($entity);
 	}
 
 
-	public function show($id)
+	public function update($id, updateEntityRequest $request)
 	{
-		//
-	}
-
-
-	public function update($id)
-	{
-		//
+		$entity = $this->entity->findOrFail($id);
+		foreach ($request->only('name', 'desc') as $key => $value) {
+			$entity->$key = $value;
+		}
+		$entity->save();
+		return response()->json($entity);
 	}
 
 
 	public function destroy($id)
 	{
-		//
+
+		$entity = $this->entity
+			->where('user_id', $this->auth->id())
+			->where('id', $id)
+			->firstOrFail();
+		$entity->delete();
+		return response()->json($entity);
 	}
 
 }

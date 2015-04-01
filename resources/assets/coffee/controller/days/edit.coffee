@@ -1,5 +1,5 @@
 
-mainControllers.controller 'DaysEditController', ($scope, $modalInstance, $http, days) ->
+mainControllers.controller 'DaysEditController', ($scope, $modalInstance, $http, $filter, days) ->
     $scope.days = $.extend {}, days
 
     $scope.today = ->
@@ -19,6 +19,8 @@ mainControllers.controller 'DaysEditController', ($scope, $modalInstance, $http,
     $scope.format = 'yyyy-MM-dd'
 
     $scope.save = ->
+        $scope.days.anniv_at = $filter('date')($scope.days.anniv_at, $scope.format)
+
         method = 'post'
         endPoint = "/api/entities/" + days.entity_id + "/days"
 

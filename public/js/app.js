@@ -121,7 +121,7 @@
               return {
                 name: '',
                 desc: '',
-                date: '',
+                anniv_at: '',
                 entity_id: entity.id
               };
             }
@@ -170,7 +170,7 @@
     };
   });
 
-  mainControllers.controller('DaysEditController', function($scope, $modalInstance, $http, days) {
+  mainControllers.controller('DaysEditController', function($scope, $modalInstance, $http, $filter, days) {
     $scope.days = $.extend({}, days);
     $scope.today = function() {
       return $scope.days.anniv_at = new Date();
@@ -190,6 +190,7 @@
     $scope.format = 'yyyy-MM-dd';
     $scope.save = function() {
       var endPoint, method;
+      $scope.days.anniv_at = $filter('date')($scope.days.anniv_at, $scope.format);
       method = 'post';
       endPoint = "/api/entities/" + days.entity_id + "/days";
       if (days.id) {

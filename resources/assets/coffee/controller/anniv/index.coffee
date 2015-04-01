@@ -62,7 +62,7 @@ mainControllers.controller 'AnnivIndexController', ($scope, $http, $location, $r
 					else
 						name: ''
 						desc: ''
-						date: ''
+						anniv_at: ''
 						entity_id: entity.id
 		instance.result.then (selectItem) ->
 			showSuccessMessage '保存しました'

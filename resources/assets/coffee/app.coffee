@@ -114,7 +114,7 @@ mainControllers.controller 'AnnivIndexController', ($scope, $http, $location, $r
 					else
 						name: ''
 						desc: ''
-						date: ''
+						anniv_at: ''
 						entity_id: entity.id
 		instance.result.then (selectItem) ->
 			showSuccessMessage '保存しました'
@@ -154,7 +154,7 @@ mainControllers.controller 'EntityEditController', ($scope, $modalInstance, $htt
         $modalInstance.dismiss('cancel')
 
 
-mainControllers.controller 'DaysEditController', ($scope, $modalInstance, $http, days) ->
+mainControllers.controller 'DaysEditController', ($scope, $modalInstance, $http, $filter, days) ->
     $scope.days = $.extend {}, days
 
     $scope.today = ->
@@ -174,6 +174,8 @@ mainControllers.controller 'DaysEditController', ($scope, $modalInstance, $http,
     $scope.format = 'yyyy-MM-dd'
 
     $scope.save = ->
+        $scope.days.anniv_at = $filter('date')($scope.days.anniv_at, $scope.format)
+
         method = 'post'
         endPoint = "/api/entities/" + days.entity_id + "/days"
 

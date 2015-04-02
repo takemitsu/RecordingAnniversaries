@@ -50,6 +50,7 @@ elixir(function(mix) {
 			'resources/assets/coffee/router.coffee',
 			'resources/assets/coffee/main.coffee',
 			'resources/assets/coffee/filter/JDate.coffee',
+			'resources/assets/coffee/filter/DiffDate.coffee',
 			'resources/assets/coffee/util/message.coffee',
 			'resources/assets/coffee/controller/anniv/index.coffee',
 			'resources/assets/coffee/controller/anniv/edit.coffee',

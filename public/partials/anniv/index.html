@@ -10,6 +10,7 @@
 			</div>
 
 			<div ng-repeat="entity in entities" ng-class="{entities:$middle || $last}">
+
 				<div class="row entity-title">
 					<div class="col-md-2">{{entity.name}}</div>
 					<div class="col-md-7" style="white-space: pre-line;">{{entity.desc}}</div>
@@ -19,8 +20,10 @@
 						<button class="btn btn-xs btn-danger" ng-click="deleteEntity(entity)">delete</button>
 					</div>
 				</div>
+
 				<div class="row" ng-repeat="d in entity.days" ng-class="{days:$middle || $last}">
-					<div class="col-md-2 col-md-offset-1">{{d.name}}</div>
+					<div class="col-md-3"><span class="text-primary">{{d.name}}</span> まで
+					<span class="text-danger"> {{ d.anniv_at | DiffDate }} </span>日</div>
 					<div class="col-md-2">{{d.anniv_at}} ({{ d.anniv_at | JDate:1 }})</div>
 					<div class="col-md-4" style="white-space: pre-line;">{{d.desc}}</div>
 					<div class="col-md-3 text-right">

@@ -67,6 +67,45 @@
     };
   });
 
+  mainControllers.filter('DiffDate', function() {
+    return function(input) {
+      var date, dates, diff, diffDay, diff_date, now;
+      if (!input) {
+        return '';
+      }
+      if (input.length !== 10) {
+        return '';
+      }
+      dates = input.split("-");
+      if (dates.length !== 3) {
+        return '';
+      }
+      date = parseInt(dates.join(""));
+      if (!date) {
+        return '';
+      }
+      if (dates[0] > 2099) {
+        return '';
+      }
+      if (dates[1] > 12 || dates[1] === "00") {
+        return '';
+      }
+      if (dates[2] > 31 || dates[2] === "00") {
+        return;
+      }
+      date = new Date(dates[0], dates[1] - 1, dates[2]);
+      now = new Date();
+      now = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      diff_date = new Date(now.getFullYear(), date.getMonth(), date.getDate());
+      if (now > diff_date) {
+        diff_date = new Date(now.getFullYear() + 1, date.getMonth(), date.getDate());
+      }
+      diff = diff_date - now;
+      diffDay = diff / 86400000;
+      return diffDay;
+    };
+  });
+
   showMessage = function(type, message, autoclose) {
     if (autoclose == null) {
       autoclose = true;

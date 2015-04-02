@@ -7,7 +7,7 @@
             <label for="name" class="col-sm-3 control-label">name</label>
             <div class="col-sm-9">
                 <input type="text" name="name" id="name" class="form-control" ng-model="days.name" required placeholder="名前">
-                <span class="error" ng-show="fm.name.$error.required">名前は必須です</span>
+                <span class="text-danger" ng-show="fm.name.$error.required">名前は必須です</span>
             </div>
         </div>
     <!--
@@ -16,14 +16,16 @@
         </div>
     -->
         <div class="form-group">
-            <label for="desc" class="col-sm-3 control-label">メモ</label>
+            <label for="desc" class="col-sm-3 control-label">日付</label>
             <div class="col-sm-9">
-                <p class="input-group">
+                <p class="input-group date-input">
                     <input type="text" class="form-control" datepicker-popup="{{format}}" name="anniv_at" ng-model="days.anniv_at" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </p>
+                <span class="text-danger" ng-show="fm.anniv_at.$error.required">日付は必須です</span>
+                <span ng-show="days.anniv_at">( {{days.anniv_at | date: 'yyyy-MM-dd' | JDate: 1 }} )</span>
             </div>
         </div>
         <div class="form-group">

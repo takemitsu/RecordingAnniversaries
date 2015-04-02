@@ -53,6 +53,7 @@ elixir(function(mix) {
 			'resources/assets/coffee/filter/DiffDate.coffee',
 			'resources/assets/coffee/util/message.coffee',
 			'resources/assets/coffee/controller/anniv/index.coffee',
+			'resources/assets/coffee/controller/anniv/list.coffee',
 			'resources/assets/coffee/controller/anniv/edit.coffee',
 			'resources/assets/coffee/controller/days/edit.coffee'
 	]);

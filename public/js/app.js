@@ -8,6 +8,9 @@
       return $routeProvider.when('/index', {
         templateUrl: '/partials/anniv/index.html',
         controller: 'AnnivIndexController'
+      }).when('/list', {
+        templateUrl: '/partials/anniv/list.html',
+        controller: 'AnnivListController'
       }).otherwise({
         redirectTo: '/index'
       });
@@ -138,6 +141,17 @@
   };
 
   mainControllers.controller('AnnivIndexController', function($scope, $http, $location, $routeParams, $modal, $log) {
+    $scope.loadDetail = function() {
+      return $http.get("/api/entities/pickup").success(function(data) {
+        return $scope.entities = data;
+      }).error(function(data) {
+        return $log.info(data);
+      });
+    };
+    return $scope.loadDetail();
+  });
+
+  mainControllers.controller('AnnivListController', function($scope, $http, $location, $routeParams, $modal, $log) {
     $scope.maxSize = 5;
     $scope.itemPerPage = 10;
     $scope.totalItems = 1;

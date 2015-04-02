@@ -1,0 +1,41 @@
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading clearfix">
+				<div class="panel-title pull-left">List</div>
+				<div class="btn-group pull-right">
+					<button class="btn btn-xs btn-primary" ng-click="addEntity()">add Entity</button>
+				</div>
+			</div>
+
+			<div ng-repeat="entity in entities" ng-class="{entities:$middle || $last}">
+
+				<div class="row entity-title">
+					<div class="col-md-2">{{entity.name}}</div>
+					<div class="col-md-7" style="white-space: pre-line;">{{entity.desc}}</div>
+					<div class="col-md-3 text-right">
+						<button class="btn btn-xs btn-primary" ng-click="addAnniv(entity)">add Anniv</button>
+						<button class="btn btn-xs btn-default" ng-click="editEntity(entity)">edit</button>
+						<button class="btn btn-xs btn-danger" ng-click="deleteEntity(entity)">delete</button>
+					</div>
+				</div>
+
+				<div class="row" ng-repeat="d in entity.days" ng-class="{days:$middle || $last}">
+					<div class="col-md-3"><span class="text-primary">{{d.name}}</span> まで
+					<span class="text-danger"> {{ d.anniv_at | DiffDate }} </span>日</div>
+					<div class="col-md-2">{{d.anniv_at}} ({{ d.anniv_at | JDate:1 }})</div>
+					<div class="col-md-4" style="white-space: pre-line;">{{d.desc}}</div>
+					<div class="col-md-3 text-right">
+						<button class="btn btn-xs btn-default" ng-click="editAnniv(entity, d)">edit</button>
+						<button class="btn btn-xs btn-danger" ng-click="deleteAnniv(d)">delete</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel-footer">
+				<pagination rotate="false" items-per-page="itemPerPage" max-size="maxSize" boundary-links="true" total-items="totalItems" ng-model="filters.page" ng-change="loadDetail()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+			</div>
+		</div>
+	</div>
+</div>

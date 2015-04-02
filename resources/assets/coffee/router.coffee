@@ -15,6 +15,9 @@ mainApp.config ['$routeProvider', ($routeProvider) ->
     .when '/index',
       templateUrl: '/partials/anniv/index.html'
       controller: 'AnnivIndexController'
+    .when '/list',
+      templateUrl: '/partials/anniv/list.html'
+      controller: 'AnnivListController'
     # entity
     #.when '/entity',
     #  templateUrl: '/partials/entity/index.html'

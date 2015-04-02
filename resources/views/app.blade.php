@@ -37,6 +37,7 @@
 						<li><a href="{{ url('/auth/login') }}">Login</a></li>
 						<li><a href="{{ url('/auth/register') }}">Register</a></li>
 					@else
+						<li><a href="/anniv/#/list">List</a></li>
 						<li class="dropdown" dropdown>
 							<a role="button" class="dropdown-toggle" dropdown-toggle>
 								{{ Auth::user()->name }} <span class="caret"></span>

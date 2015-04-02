@@ -10,8 +10,9 @@ Route::controllers([
 ]);
 
 Route::group(array('prefix' => 'api'), function() {
+	Route::get('entities/pickup', 'EntityController@pickup');
 	Route::resource('entities', 'EntityController',
-		['only' => ['index', 'store', 'update' , 'destroy', 'show'],]);
+		['only' => ['index', 'store', 'update' , 'destroy'],]);
 
 	Route::resource('entities.days', 'DaysController',
 		['only' => ['store', 'update' , 'destroy'],]);

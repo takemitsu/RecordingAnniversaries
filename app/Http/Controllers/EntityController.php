@@ -82,8 +82,9 @@ class EntityController extends Controller {
 					$key_id[$key1] = $value->diff_days;
 				}
 				array_multisort($key_id, SORT_ASC ,$s);
-				// day は class有りのオブジェクトなので違う名前でソートしたものを格納
-				$entities[$key]->sort_days = $s;
+
+				unset($entities[$key]->days);
+				$entities[$key]->days = $s;
 			}
 		}
 

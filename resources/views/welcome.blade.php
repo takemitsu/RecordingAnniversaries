@@ -15,7 +15,7 @@
 				padding: 0;
 				width: 100%;
 				height: 100%;
-				color: #B0BEC5;
+				color: #f5b2ac;
 				display: table;
 				font-weight: 100;
 				font-family: 'Lato';
@@ -34,7 +34,8 @@
 
 			.title {
 				/*font-size: 96px;*/
-				margin-bottom: 40px;
+				padding-top: 64px;
+				padding-bottom: 40px;
 			}
 
 			.quote {

@@ -22,6 +22,19 @@ class DaysController extends Controller {
 		$this->days = $days;
 	}
 
+	public function show($entity_id, $id)
+	{
+		$entity = Entity::where('user_id', $this->auth->id())
+			->where('id', $entity_id)
+			->firstOrFail();
+
+		$days = $this->days->where('entity_id', $entity->id)
+			->where('id', $id)
+			->firstOrFail();
+
+		return $days->toJson();
+	}
+
 	public function store($entity_id, createDaysRequest $request)
 	{
 		$days = new Days;

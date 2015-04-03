@@ -5,7 +5,7 @@
 			<div class="panel-heading clearfix">
 				<div class="panel-title pull-left">List</div>
 				<div class="btn-group pull-right">
-					<button class="btn btn-xs btn-primary" ng-click="addEntity()">add Entity</button>
+					<button class="btn btn-sm btn-primary" ng-click="addEntity()">add Entity</button>
 				</div>
 			</div>
 
@@ -16,13 +16,15 @@
 					<div class="col-md-7" style="white-space: pre-line;">{{entity.desc}}</div>
 					<div class="col-md-3 text-right">
 						<div class="btn-group" dropdown>
-							<button type="button" class="btn btn-xs btn-default dropdown-toggle" dropdown-toggle>
+							<button type="button" class="btn btn-sm btn-default dropdown-toggle" dropdown-toggle>
 								action <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu pull-right" role="menu">
-								<li><a class="text-primary" ng-click="addAnniv(entity)">add Anniv</a></li>
-								<li><a class="" ng-click="editEntity(entity)">edit</a></li>
-								<li><a class="text-danger" ng-click="deleteEntity(entity)">delete</a></li>
+								<li><a ng-click="addAnniv(entity)">add Anniv</a></li>
+								<li class="divider"></li>
+								<li><a ng-click="editEntity(entity)">edit</a></li>
+								<li class="divider"></li>
+								<li><a ng-click="deleteEntity(entity)">delete</a></li>
 							</ul>
 						</div>
 					</div>
@@ -35,12 +37,12 @@
 					<div class="col-md-4" style="white-space: pre-line;">{{d.desc}}</div>
 					<div class="col-md-3 text-right">
 						<div class="btn-group" dropdown>
-							<button type="button" class="btn btn-xs btn-default dropdown-toggle" dropdown-toggle>
+							<button type="button" class="btn btn-sm btn-default dropdown-toggle" dropdown-toggle>
 								action <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu pull-right" role="menu">
-								<li><a class="" ng-click="editAnniv(entity, d)">edit</a></li>
-								<li><a class="text-danger" ng-click="deleteAnniv(d)">delete</a></li>
+								<li><a ng-click="editAnniv(entity, d)">edit</a></li>
+								<li><a ng-click="deleteAnniv(d)">delete</a></li>
 							</ul>
 						</div>
 					</div>

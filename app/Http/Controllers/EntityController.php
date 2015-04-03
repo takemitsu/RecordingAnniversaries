@@ -104,6 +104,15 @@ class EntityController extends Controller {
 		;
 	}
 
+	public function show($id)
+	{
+		$entity = $this->entity
+			->where('user_id', $this->auth->id())
+			->where('id', $id)
+			->firstOrFail();
+
+		return $entity->toJson();
+	}
 
 	public function store(createEntityRequest $request)
 	{

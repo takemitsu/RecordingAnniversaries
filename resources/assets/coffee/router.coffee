@@ -19,12 +19,19 @@ mainApp.config ['$routeProvider', ($routeProvider) ->
       templateUrl: '/partials/anniv/list.html'
       controller: 'AnnivListController'
     # entity
-    #.when '/entity',
-    #  templateUrl: '/partials/entity/index.html'
-    #  controller: 'EntityIndexController'
-    #.when '/entity/:id',
-    #  templateUrl: '/partials/entity/detail.html'
-    #  controller: 'EntityDetailController'
+    .when '/entity',
+      templateUrl: '/partials/entity/edit.html'
+      controller: 'EntityEditController'
+    .when '/entity/:id',
+      templateUrl: '/partials/entity/edit.html'
+      controller: 'EntityEditController'
+    # days
+    .when '/entity/:entity_id/days',
+      templateUrl: '/partials/days/edit.html'
+      controller: 'DaysEditController'
+    .when '/entity/:entity_id/days/:id',
+      templateUrl: '/partials/days/edit.html'
+      controller: 'DaysEditController'
 
     .otherwise
       redirectTo: '/index'

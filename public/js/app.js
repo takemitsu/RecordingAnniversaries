@@ -11,6 +11,18 @@
       }).when('/list', {
         templateUrl: '/partials/anniv/list.html',
         controller: 'AnnivListController'
+      }).when('/entity', {
+        templateUrl: '/partials/entity/edit.html',
+        controller: 'EntityEditController'
+      }).when('/entity/:id', {
+        templateUrl: '/partials/entity/edit.html',
+        controller: 'EntityEditController'
+      }).when('/entity/:entity_id/days', {
+        templateUrl: '/partials/days/edit.html',
+        controller: 'DaysEditController'
+      }).when('/entity/:entity_id/days/:id', {
+        templateUrl: '/partials/days/edit.html',
+        controller: 'DaysEditController'
       }).otherwise({
         redirectTo: '/index'
       });
@@ -154,7 +166,7 @@
     return $scope.loadDetail();
   });
 
-  mainControllers.controller('AnnivListController', function($scope, $http, $location, $routeParams, $modal, $log) {
+  mainControllers.controller('AnnivListController', function($scope, $http, $location, $route, $routeParams, $modal, $log) {
     $scope.maxSize = 5;
     $scope.itemPerPage = 10;
     $scope.totalItems = 1;
@@ -175,32 +187,10 @@
     };
     $scope.loadDetail();
     $scope.addEntity = function() {
-      return $scope.editEntity(null);
+      return $location.path("/entity");
     };
     $scope.editEntity = function(entity) {
-      var instance;
-      instance = $modal.open({
-        templateUrl: '/partials/entity/modal/edit.html',
-        controller: 'EntityEditController',
-        resolve: {
-          entity: function() {
-            if (entity) {
-              return entity;
-            } else {
-              return {
-                name: '',
-                desc: ''
-              };
-            }
-          }
-        }
-      });
-      return instance.result.then(function(selectItem) {
-        showSuccessMessage('保存しました');
-        return $scope.loadDetail();
-      }, function() {
-        return $log.info('dismiss editEntity');
-      });
+      return $location.path('/entity/' + entity.id);
     };
     $scope.deleteEntity = function(entity) {
       if (confirm(entity.name + " を削除します。よろしいですか？")) {
@@ -213,34 +203,10 @@
       }
     };
     $scope.addAnniv = function(entity) {
-      return $scope.editAnniv(entity, null);
+      return $location.path("/entity/" + entity.id + "/days");
     };
     $scope.editAnniv = function(entity, anniv) {
-      var instance;
-      instance = $modal.open({
-        templateUrl: '/partials/days/modal/edit.html',
-        controller: 'DaysEditController',
-        resolve: {
-          days: function() {
-            if (anniv) {
-              return anniv;
-            } else {
-              return {
-                name: '',
-                desc: '',
-                anniv_at: '',
-                entity_id: entity.id
-              };
-            }
-          }
-        }
-      });
-      return instance.result.then(function(selectItem) {
-        showSuccessMessage('保存しました');
-        return $scope.loadDetail();
-      }, function() {
-        return $log.info('dismiss editAnniv');
-      });
+      return $location.path("/entity/" + entity.id + "/days/" + anniv.id);
     };
     return $scope.deleteAnniv = function(anniv) {
       if (confirm(anniv.name + " を削除します。よろしいですか？")) {
@@ -254,31 +220,16 @@
     };
   });
 
-  mainControllers.controller('EntityEditController', function($scope, $modalInstance, $http, entity) {
-    $scope.entity = $.extend({}, entity);
-    $scope.save = function() {
-      var endPoint, method;
-      method = 'post';
-      endPoint = "/api/entities";
-      if (entity.id) {
-        method = 'put';
-        endPoint += "/" + entity.id;
-      }
-      return $http({
-        method: method,
-        url: endPoint,
-        data: $scope.entity
-      }).success(function(json) {
-        return $modalInstance.close(json);
+  mainControllers.controller('DaysEditController', function($scope, $http, $location, $route, $routeParams, $filter, $log) {
+    $log.info($routeParams);
+    $scope.days = {};
+    $scope.old_days = {};
+    if ($routeParams.id && $routeParams.entity_id) {
+      $http.get("/api/entities/" + $routeParams.entity_id + "/days/" + $routeParams.id).success(function(json) {
+        $scope.old_days = json;
+        return $scope.days = json;
       }).error(networkError);
-    };
-    return $scope.cancel = function() {
-      return $modalInstance.dismiss('cancel');
-    };
-  });
-
-  mainControllers.controller('DaysEditController', function($scope, $modalInstance, $http, $filter, days) {
-    $scope.days = $.extend({}, days);
+    }
     $scope.today = function() {
       return $scope.days.anniv_at = new Date();
     };
@@ -299,21 +250,60 @@
       var endPoint, method;
       $scope.days.anniv_at = $filter('date')($scope.days.anniv_at, $scope.format);
       method = 'post';
-      endPoint = "/api/entities/" + days.entity_id + "/days";
-      if (days.id) {
+      endPoint = "/api/entities/" + $routeParams.entity_id + "/days";
+      if ($routeParams.id) {
         method = 'put';
-        endPoint += "/" + days.id;
+        endPoint += "/" + $routeParams.id;
       }
       return $http({
         method: method,
         url: endPoint,
         data: $scope.days
       }).success(function(json) {
-        return $modalInstance.close(json);
+        showSuccessMessage('保存しました');
+        return $scope.redirect();
       }).error(networkError);
     };
-    return $scope.cancel = function() {
-      return $modalInstance.dismiss('cancel');
+    $scope.cancel = function() {
+      return $scope.redirect();
+    };
+    return $scope.redirect = function() {
+      return $location.path("/list");
+    };
+  });
+
+  mainControllers.controller('EntityEditController', function($scope, $http, $location, $route, $routeParams, $log) {
+    $log.info($routeParams.id);
+    $scope.entity = {};
+    $scope.old_entity = {};
+    if ($routeParams.id) {
+      $http.get("/api/entities/" + $routeParams.id).success(function(json) {
+        $scope.old_entity = json;
+        return $scope.entity = json;
+      }).error(networkError);
+    }
+    $scope.save = function() {
+      var endPoint, method;
+      method = 'post';
+      endPoint = "/api/entities";
+      if ($scope.old_entity.id) {
+        method = 'put';
+        endPoint += "/" + $scope.old_entity.id;
+      }
+      return $http({
+        method: method,
+        url: endPoint,
+        data: $scope.entity
+      }).success(function(json) {
+        showSuccessMessage('保存しました');
+        return $scope.redirect();
+      }).error(networkError);
+    };
+    $scope.cancel = function() {
+      return $scope.redirect();
+    };
+    return $scope.redirect = function() {
+      return $location.path("/list");
     };
   });
 

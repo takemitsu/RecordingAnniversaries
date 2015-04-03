@@ -1,5 +1,5 @@
 
-mainControllers.controller 'AnnivListController', ($scope, $http, $location, $routeParams, $modal, $log) ->
+mainControllers.controller 'AnnivListController', ($scope, $http, $location, $route, $routeParams, $modal, $log) ->
 
 	$scope.maxSize = 5
 	$scope.itemPerPage = 10
@@ -22,23 +22,10 @@ mainControllers.controller 'AnnivListController', ($scope, $http, $location, $ro
 	$scope.loadDetail()
 
 	$scope.addEntity = ->
-		$scope.editEntity null
+		$location.path "/entity"
+
 	$scope.editEntity = (entity) ->
-		instance = $modal.open
-			templateUrl: '/partials/entity/modal/edit.html'
-			controller: 'EntityEditController'
-			resolve:
-				entity: ->
-					if entity
-						return entity
-					else
-						name: ''
-						desc: ''
-		instance.result.then (selectItem) ->
-			showSuccessMessage '保存しました'
-			$scope.loadDetail()
-		, ->
-			$log.info 'dismiss editEntity'
+		$location.path '/entity/' + entity.id
 
 	$scope.deleteEntity = (entity) ->
 		if confirm(entity.name + " を削除します。よろしいですか？")
@@ -50,25 +37,10 @@ mainControllers.controller 'AnnivListController', ($scope, $http, $location, $ro
 			.error networkError
 
 	$scope.addAnniv = (entity) ->
-		$scope.editAnniv(entity, null)
+		$location.path "/entity/" + entity.id + "/days"
+
 	$scope.editAnniv = (entity, anniv) ->
-		instance = $modal.open
-			templateUrl: '/partials/days/modal/edit.html'
-			controller: 'DaysEditController'
-			resolve:
-				days: ->
-					if anniv
-						return anniv
-					else
-						name: ''
-						desc: ''
-						anniv_at: ''
-						entity_id: entity.id
-		instance.result.then (selectItem) ->
-			showSuccessMessage '保存しました'
-			$scope.loadDetail()
-		, ->
-			$log.info 'dismiss editAnniv'
+		$location.path "/entity/" + entity.id + "/days/" + anniv.id
 
 	$scope.deleteAnniv = (anniv) ->
 		if confirm(anniv.name + " を削除します。よろしいですか？")

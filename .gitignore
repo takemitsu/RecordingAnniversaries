@@ -3,3 +3,4 @@
 .env
 /bower_components
 resources/assets/coffee/app.coffee
+composer.lock

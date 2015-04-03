@@ -15,9 +15,16 @@
 					<div class="col-md-2">{{entity.name}}</div>
 					<div class="col-md-7" style="white-space: pre-line;">{{entity.desc}}</div>
 					<div class="col-md-3 text-right">
-						<button class="btn btn-xs btn-primary" ng-click="addAnniv(entity)">add Anniv</button>
-						<button class="btn btn-xs btn-default" ng-click="editEntity(entity)">edit</button>
-						<button class="btn btn-xs btn-danger" ng-click="deleteEntity(entity)">delete</button>
+						<div class="btn-group" dropdown>
+							<button type="button" class="btn btn-xs btn-default dropdown-toggle" dropdown-toggle>
+								action <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li><a class="text-primary" ng-click="addAnniv(entity)">add Anniv</a></li>
+								<li><a class="" ng-click="editEntity(entity)">edit</a></li>
+								<li><a class="text-danger" ng-click="deleteEntity(entity)">delete</a></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 
@@ -27,8 +34,15 @@
 					<div class="col-md-2">{{d.anniv_at}} ({{ d.anniv_at | JDate:1 }})</div>
 					<div class="col-md-4" style="white-space: pre-line;">{{d.desc}}</div>
 					<div class="col-md-3 text-right">
-						<button class="btn btn-xs btn-default" ng-click="editAnniv(entity, d)">edit</button>
-						<button class="btn btn-xs btn-danger" ng-click="deleteAnniv(d)">delete</button>
+						<div class="btn-group" dropdown>
+							<button type="button" class="btn btn-xs btn-default dropdown-toggle" dropdown-toggle>
+								action <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li><a class="" ng-click="editAnniv(entity, d)">edit</a></li>
+								<li><a class="text-danger" ng-click="deleteAnniv(d)">delete</a></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>

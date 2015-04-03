@@ -143,7 +143,10 @@
   mainControllers.controller('AnnivIndexController', function($scope, $http, $location, $routeParams, $modal, $log) {
     $scope.loadDetail = function() {
       return $http.get("/api/entities/pickup").success(function(data) {
-        return $scope.entities = data;
+        $scope.entities = data;
+        if (data.length === 0) {
+          return location.href = "#/list";
+        }
       }).error(function(data) {
         return $log.info(data);
       });

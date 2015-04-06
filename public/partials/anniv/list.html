@@ -15,13 +15,12 @@
 					<div class="col-md-2">{{entity.name}}</div>
 					<div class="col-md-7" style="white-space: pre-line;">{{entity.desc}}</div>
 					<div class="col-md-3 text-right">
+						<button class="btn btn-sm btn-primary" ng-click="addAnniv(entity)">add Anniv</button>
 						<div class="btn-group" dropdown>
 							<button type="button" class="btn btn-sm btn-default dropdown-toggle" dropdown-toggle>
 								action <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu pull-right" role="menu">
-								<li><a ng-click="addAnniv(entity)">add Anniv</a></li>
-								<li class="divider"></li>
 								<li><a ng-click="editEntity(entity)">edit</a></li>
 								<li class="divider"></li>
 								<li><a ng-click="deleteEntity(entity)">delete</a></li>
@@ -42,6 +41,7 @@
 							</button>
 							<ul class="dropdown-menu pull-right" role="menu">
 								<li><a ng-click="editAnniv(entity, d)">edit</a></li>
+								<li class="divider"></li>
 								<li><a ng-click="deleteAnniv(d)">delete</a></li>
 							</ul>
 						</div>

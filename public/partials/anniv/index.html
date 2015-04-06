@@ -11,13 +11,15 @@
 					<div class="col-md-2">{{entity.name}}</div>
 					<div class="col-md-10">
 						<div class="row" ng-repeat="d in entity.days" ng-class="{days:$middle || ($last && !($first))}">
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<span class="text-primary">{{d.name}}</span> まで
 								<span class="text-danger"> {{ d.diff_days }} </span>日
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								{{d.anniv_at}} ({{ d.anniv_at | JDate:1 }})
-								<span style="padding-left:10px;">{{d.anniv_at | Nenrei:0:"年":1:"ヶ月"}}</span>
+							</div>
+							<div class="col-md-4">
+								<span style="">{{d.anniv_at | Nenrei:0:"年":1:"ヶ月"}}</span>
 								<span style="padding-left:5px;">({{d.anniv_at | Nenrei:1:"年"}}目)</span>
 							</div>
 						</div>

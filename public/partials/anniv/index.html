@@ -10,12 +10,16 @@
 				<div class="row">
 					<div class="col-md-2">{{entity.name}}</div>
 					<div class="col-md-10">
-						<div class="row" ng-repeat="d in entity.days" ng-class="{days:$first || $middle || $last}">
+						<div class="row" ng-repeat="d in entity.days" ng-class="{days:$middle || ($last && !($first))}">
 							<div class="col-md-6">
 								<span class="text-primary">{{d.name}}</span> まで
 								<span class="text-danger"> {{ d.diff_days }} </span>日
 							</div>
-							<div class="col-md-6">{{d.anniv_at}} ({{ d.anniv_at | JDate:1 }})</div>
+							<div class="col-md-6">
+								{{d.anniv_at}} ({{ d.anniv_at | JDate:1 }})
+								<span style="padding-left:10px;">{{d.anniv_at | Nenrei:0:"年":1:"ヶ月"}}</span>
+								<span style="padding-left:5px;">({{d.anniv_at | Nenrei:1:"年"}}目)</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -28,8 +32,7 @@
 		</div>
 		<div class="row margin-bottom-10">
 			<div class="col-md-10">
-				TODO: 各日付に対してアラームをセットし、その指定に従って表示する。
-				とりあえず、30日に迫ったモノに絞って表示している
+				TODO: 各日付に対してアラームをセットし、その指定に従って表示したい。
 			</div>
 			<div class="col-md-2 text-right">
 				<a href="#/list" class="btn btn-xs btn-default">disp list</a>

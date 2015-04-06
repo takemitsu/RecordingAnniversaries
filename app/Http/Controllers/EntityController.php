@@ -35,39 +35,6 @@ class EntityController extends Controller {
 			->orderBy('created_at', 'asc')
 			->get();
 
-		$today = date('Y-m-d');
-		// $this->log($today);
-
-		//日付をUNIXタイムスタンプに変換
-		$timeStampToday = strtotime($today);
-
-		foreach ($entities as $key1 => $entity) {
-			foreach ($entity->days as $key2 => $d) {
-				$anniv_at_tmp = date('Y') . "-" . date('m-d', strtotime($d->anniv_at));
-				$anniv_at = date($anniv_at_tmp);
-				//日付をUNIXタイムスタンプに変換
-				$timeStampAnniv = strtotime($anniv_at);
-				//何秒離れているかを計算(絶対値)
-				$secondDiff = ($timeStampAnniv - $timeStampToday);
-				// マイナスなら年を足してもう１回
-				if($secondDiff < 0) {
-					$anniv_at_tmp = (date('Y') + 1) . "-" . date('m-d', strtotime($d->anniv_at));
-					$anniv_at = date($anniv_at_tmp);
-					$timeStampAnniv = strtotime($anniv_at);
-					$secondDiff = ($timeStampAnniv - $timeStampToday);
-				}
-				//日数に変換
-				$dayDiff = $secondDiff / (60 * 60 * 24);
-				// $this->log($dayDiff);
-				if($dayDiff > 30) {
-					unset($entities[$key1]->days[$key2]);
-				}
-				else {
-					$entities[$key1]->days[$key2]->diff_at = $anniv_at;
-					$entities[$key1]->days[$key2]->diff_days = $dayDiff;
-				}
-			}
-		}
 		foreach ($entities as $key => $entity) {
 			if(count($entity->days) == 0) {
 				unset($entities[$key]);
@@ -78,30 +45,30 @@ class EntityController extends Controller {
 				foreach ($entity->days as $d) {
 					array_push($s, $d);
 				}
-				foreach ($s as $key1 => $value) {
-					$key_id[$key1] = $value->diff_days;
-				}
-				array_multisort($key_id, SORT_ASC ,$s);
-
+				usort($s, $this->build_sorter('diff_days'));
 				unset($entities[$key]->days);
 				$entities[$key]->days = $s;
 			}
 		}
-
 		return $entities->toJson();
 	}
 
-
+	// for sort
+	static function build_sorter($key) {
+		return function ($a, $b) use($key) {
+			return strnatcasecmp($a[$key], $b[$key]);
+		};
+	}
 
 	public function index()
 	{
-		return
-			$this->entity
+		$entities = $this->entity
 				->where('user_id',$this->auth->id())
 				->with('days')
 				->orderBy('created_at', 'asc')
-				->paginate(20)->toJson()
-		;
+				->paginate(20);
+
+		return $entities->toJson();
 	}
 
 	public function show($id)

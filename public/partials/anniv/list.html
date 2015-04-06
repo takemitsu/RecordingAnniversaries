@@ -29,11 +29,14 @@
 					</div>
 				</div>
 
-				<div class="row" ng-repeat="d in entity.days" ng-class="{days:$middle || $last}">
+				<div class="row days" ng-repeat="d in entity.days">
 					<div class="col-md-3"><span class="text-primary">{{d.name}}</span> まで
-					<span class="text-danger"> {{ d.anniv_at | DiffDate }} </span>日</div>
+					<span class="text-danger"> {{ d.diff_days }} </span>日</div>
 					<div class="col-md-2">{{d.anniv_at}} ({{ d.anniv_at | JDate:1 }})</div>
-					<div class="col-md-4" style="white-space: pre-line;">{{d.desc}}</div>
+					<div class="col-md-4">
+							<span style="padding-left:10px;">{{d.anniv_at | Nenrei:0:"年":1:"ヶ月"}}</span>
+							<span style="padding-left:5px;">({{d.anniv_at | Nenrei:1:"年"}}目)</span>
+					</div>
 					<div class="col-md-3 text-right">
 						<div class="btn-group" dropdown>
 							<button type="button" class="btn btn-sm btn-default dropdown-toggle" dropdown-toggle>

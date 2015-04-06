@@ -121,6 +121,49 @@
     };
   });
 
+  mainControllers.filter('Nenrei', function() {
+    return function(input, append_year, unit, month_flag, unit_month) {
+      var birthday, date, dates, diff, today;
+      if (!input) {
+        return '';
+      }
+      if (input.length !== 10) {
+        return '';
+      }
+      dates = input.split("-");
+      if (dates.length !== 3) {
+        return '';
+      }
+      date = parseInt(dates.join(""));
+      if (!date) {
+        return '';
+      }
+      if (dates[0] > 2099) {
+        return '';
+      }
+      if (dates[1] > 12 || dates[1] === "00") {
+        return '';
+      }
+      if (dates[2] > 31 || dates[2] === "00") {
+        return;
+      }
+      today = new Date();
+      today = today.getFullYear() * 10000 + today.getMonth() * 100 + 100 + today.getDate();
+      birthday = parseInt(dates.join(""));
+      diff = Math.floor((today - birthday) / 10000);
+      if (append_year) {
+        diff += 1;
+      }
+      if (diff < 0) {
+        return '';
+      }
+      if (unit) {
+        diff += " " + unit;
+      }
+      return diff;
+    };
+  });
+
   showMessage = function(type, message, autoclose) {
     if (autoclose == null) {
       autoclose = true;
@@ -220,6 +263,41 @@
     };
   });
 
+  mainControllers.controller('EntityEditController', function($scope, $http, $location, $route, $routeParams, $log) {
+    $log.info($routeParams.id);
+    $scope.entity = {};
+    $scope.old_entity = {};
+    if ($routeParams.id) {
+      $http.get("/api/entities/" + $routeParams.id).success(function(json) {
+        $scope.old_entity = json;
+        return $scope.entity = json;
+      }).error(networkError);
+    }
+    $scope.save = function() {
+      var endPoint, method;
+      method = 'post';
+      endPoint = "/api/entities";
+      if ($scope.old_entity.id) {
+        method = 'put';
+        endPoint += "/" + $scope.old_entity.id;
+      }
+      return $http({
+        method: method,
+        url: endPoint,
+        data: $scope.entity
+      }).success(function(json) {
+        showSuccessMessage('保存しました');
+        return $scope.redirect();
+      }).error(networkError);
+    };
+    $scope.cancel = function() {
+      return $scope.redirect();
+    };
+    return $scope.redirect = function() {
+      return $location.path("/list");
+    };
+  });
+
   mainControllers.controller('DaysEditController', function($scope, $http, $location, $route, $routeParams, $filter, $log) {
     $log.info($routeParams);
     $scope.days = {};
@@ -259,41 +337,6 @@
         method: method,
         url: endPoint,
         data: $scope.days
-      }).success(function(json) {
-        showSuccessMessage('保存しました');
-        return $scope.redirect();
-      }).error(networkError);
-    };
-    $scope.cancel = function() {
-      return $scope.redirect();
-    };
-    return $scope.redirect = function() {
-      return $location.path("/list");
-    };
-  });
-
-  mainControllers.controller('EntityEditController', function($scope, $http, $location, $route, $routeParams, $log) {
-    $log.info($routeParams.id);
-    $scope.entity = {};
-    $scope.old_entity = {};
-    if ($routeParams.id) {
-      $http.get("/api/entities/" + $routeParams.id).success(function(json) {
-        $scope.old_entity = json;
-        return $scope.entity = json;
-      }).error(networkError);
-    }
-    $scope.save = function() {
-      var endPoint, method;
-      method = 'post';
-      endPoint = "/api/entities";
-      if ($scope.old_entity.id) {
-        method = 'put';
-        endPoint += "/" + $scope.old_entity.id;
-      }
-      return $http({
-        method: method,
-        url: endPoint,
-        data: $scope.entity
       }).success(function(json) {
         showSuccessMessage('保存しました');
         return $scope.redirect();

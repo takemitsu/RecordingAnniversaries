@@ -5,6 +5,10 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 
 class VerifyCsrfToken extends BaseVerifier {
 
+    protected $routes = [
+        'api/auth/login',
+    ];
+
 	/**
 	 * Handle an incoming request.
 	 *
@@ -14,7 +18,17 @@ class VerifyCsrfToken extends BaseVerifier {
 	 */
 	public function handle($request, Closure $next)
 	{
+
+        if($this->excludedRoutes($request)){
+            return $this->addCookieToResponse($request, $next($request));
+        }
+
 		return parent::handle($request, $next);
 	}
 
+    protected function excludedRoutes($request) {
+        foreach($this->routes as $route) {
+            if($request->is($route)) { return true; }
+        }
+    }
 }

@@ -9,7 +9,17 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
+Route::get('config', function() {
+    $version = Array(
+        "version" => "1.0",
+    );
+    return Response()->json($version);
+});
+
 Route::group(array('prefix' => 'api'), function() {
+
+    Route::post('auth/login','Auth\APIController@login');
+
 	Route::get('entities/pickup', 'EntityController@pickup');
 	Route::resource('entities', 'EntityController',
 		['only' => ['index', 'store', 'update' , 'destroy', 'show'],]);

@@ -7,6 +7,8 @@ class VerifyCsrfToken extends BaseVerifier {
 
     protected $routes = [
         'api/auth/login',
+        'test',
+        'test/*',
     ];
 
 	/**

@@ -19,6 +19,7 @@ Route::get('config', function() {
 Route::group(array('prefix' => 'api'), function() {
 
     Route::post('auth/login','Auth\APIController@login');
+    Route::get('auth/token', 'Auth\APIController@getToken');
 
 	Route::get('entities/pickup', 'EntityController@pickup');
 	Route::resource('entities', 'EntityController',
@@ -28,6 +29,7 @@ Route::group(array('prefix' => 'api'), function() {
 		['only' => ['store', 'update' , 'destroy', 'show'],]);
 });
 
+Route::resource('test', 'TestController');
 // for debug
 // データベースログ出力(use only php artisan serv)
 // DB::listen(function($sql, $bindings, $time)

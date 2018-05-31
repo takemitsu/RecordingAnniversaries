@@ -107,13 +107,14 @@ class EntityController extends Controller {
 
 	public function destroy($id)
 	{
-
 		$entity = $this->entity
 			->where('user_id', $this->auth->id())
 			->where('id', $id)
-			->firstOrFail();
-		$entity->delete();
-		return response()->json($entity);
+			->first();
+        if($entity != null){
+		    $entity->delete();
+        }
+		return "{}";
 	}
 
 }

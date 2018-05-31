@@ -31,4 +31,11 @@ class APIController extends Controller {
         abort(401, 'Authenticate Error');
 
 	}
+    // get token
+    public function getToken()
+    {
+        return response()->json([
+          "token" => csrf_token(),
+        ]);
+    }
 }

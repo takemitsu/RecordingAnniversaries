@@ -23,7 +23,10 @@ mainControllers.filter 'JDate', ->
     if dates[2] > 31 || dates[2] is "00"
         return
 
-    if date >= 19890108
+    if date >= 20190501
+        gengo = '令和'
+        wayear = dates[0] - 2018
+    else if date >= 19890108
         gengo = '平成'
         wayear = dates[0] - 1988
     else if date >= 19261225
